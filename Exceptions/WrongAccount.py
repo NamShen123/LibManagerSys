@@ -1,0 +1,2 @@
+class WrongAccount(Exception):
+    pass
