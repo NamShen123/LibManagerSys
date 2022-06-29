@@ -8,6 +8,8 @@ from function.quanlySach import QuanlySach
 from libs.Helpers import clear
 
 
+print("chạy trên terminal, tk: admin, mk: 123qwe")
+
 class Main:
     clear()
     currentUser = None

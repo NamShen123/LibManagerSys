@@ -64,3 +64,11 @@ class BaseService:
         sql = "UPDATE {0} SET {1} = %s WHERE {2} = %s".format(self.table, cot_sua, cot_dk)
         self.cursor.execute(sql, (noidung_sua, noidung_dk))
         self.conn.commit()
+
+
+
+# a = [{"key1": "val1a", "key2": "val2a"}, {"key1": "val1b", "key2": "val2b"}, {"key1": "val1c", "key2": "val2c"}]
+# b = Convert_to_list()
+# b.listdict_to_list(a)
+# print(b.header)
+# print(b.body)

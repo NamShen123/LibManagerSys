@@ -2,7 +2,7 @@ from services.BaseService import BaseService
 from libs.Helpers import md5
 from models.Nhanvien import Nhanvien
 from Exceptions.WrongAccount import WrongAccount
-from Exceptions.NotFound import NotFound
+# from Exceptions.NotFound import NotFound
 
 
 class NhanvienService(BaseService):
@@ -34,9 +34,6 @@ class NhanvienService(BaseService):
         self.cursor.execute(sql, (Ho_va_ten, taikhoan, matkhau_, Role))
         self.conn.commit()
         print("Đã cập nhật vào cơ sở dữ liệu !")
-
-
-
 
 
 

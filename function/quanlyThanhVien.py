@@ -1,6 +1,8 @@
 from services.thanhvienService import ThanhvienService
 from Exceptions.NotFound import NotFound
 from libs.Helpers import showtable, processMenu, clear
+# from matplotlib import pyplot
+from libs.convert_to_list import Convert_to_list
 
 class QuanlyThanhvien:
     def __init__(self, model):
@@ -40,6 +42,7 @@ class QuanlyThanhvien:
                 1: "Thêm thành viên",
                 2: "Tra cứu thông tin thành viên",
                 3: "Cập nhật thông tin thành viên",
+                4: "Thể loại sách yêu thích",
                 0: "Quay lại"
             })
             if menu == 1:
@@ -116,7 +119,6 @@ class QuanlyThanhvien:
                         showtable(fetch)
                         input('xác nhận')
                         clear()
-
             elif menu == 3:
                 clear()
                 option = processMenu({
@@ -157,10 +159,30 @@ class QuanlyThanhvien:
                     showtable(fetch)
                     input("Xác nhận")
                     clear()
-
-
+            elif menu == 4:
+                clear()
+                self.theloaiSachyeuthich(input("Nhập id thành viên: "))
             elif menu == 0:
                 break
 
+    def theloaiSachyeuthich(self, id_thanhvien):
+        sql = """select Ten_loai, count(Ten_loai) as "Lượt mượn"
+                from thanhvien, phieumuon, orders, sach, loaisach
+                where thanhvien.id_thanhvien = %s and thanhvien.id_thanhvien = phieumuon.id_thanhvien and phieumuon.id_phieumuon = orders.id_phieumuon and orders.id_sach = sach.id_sach and sach.id_loaisach = loaisach.id_loaisach
+                group by Ten_loai
+                order by count(Ten_loai) desc;"""
+        self.thanhvienService.cursor.execute(sql, (id_thanhvien,))
+        fetch = self.thanhvienService.cursor.fetchone()
+        # print(fetch)
+        tenloai_luotmuon = Convert_to_list()
+        tenloai_luotmuon.listdict_to_list(fetch, lst=False)
+        # tenloai = tenloai_luotmuon.header[0]
+        tenloai = tenloai_luotmuon.body[0]
+
+        thanhvien = self.thanhvienService.find(id_thanhvien)
+        ten_thanhvien = thanhvien.get("Ho_va_ten")
+        print("Thế loại sách yêu thích của {0} là {1}".format(ten_thanhvien, tenloai))
+        input("Xác nhận")
+        clear()
 
 
